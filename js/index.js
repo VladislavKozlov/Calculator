@@ -1,109 +1,68 @@
 $(window).on('load', function () {
-
     var screen,
         output,
-        limit,
+        screenNew,
         zero,
         operator;
 
-    screen = document.getElementById("result");
+    screen = $("#result");
 
-    var elem = document.querySelectorAll(".num");
+    $(document).on("click", ".num", function () {
+        num = this.value;
+        num = screen.html() + num;
+        screen.html(num);
+        output = screen.html();
+    });
 
-    var len = elem.length;
-
-    for (var i = 0; i < len; i++) {
-
-        elem[i].addEventListener("click", function () {
-
-            num = this.value;
-
-            output = screen.innerHTML += num;
-
-            limit = output.length;
-
-            if (limit > 16) {
-
-                alert("Sorry no more input is allowed");
-
-            }
-
-        }, false);
-
-    }
-
-    document.querySelector(".zero").addEventListener("click", function () {
-
+    $(document).on("click", "#zero", function () {
         zero = this.value;
-
-        if (screen.innerHTML === "") {
-
-            output = screen.innerHTML = zero;
+        if (screen.html() == "") {
+            screen.html(zero);
+            output = screen.html();
         }
-        else if (screen.innerHTML === output) {
-
-            output = screen.innerHTML += zero;
-
+        else if (screen.html() == output) {
+            zero = screen.html() + zero;
+            screen.html(zero);
+            output = screen.html();
         }
+    });
 
-    }, false);
-
-    document.querySelector(".period").addEventListener("click", function () {
-
+    $(document).on("click", ".period", function () {
         period = this.value;
-
-        if (screen.innerHTML === "") {
-
-            output = screen.innerHTML = screen.innerHTML.concat("0.");
-
+        if (screen.html() == "") {
+            screenNew = screen.html().append("0.");
+            screen.html(screenNew);
+            output = screen.html();
         }
-        else if (screen.innerHTML === output) {
-
-            screen.innerHTML = screen.innerHTML.concat(".");
-
+        else if (screen.html() == output) {
+            screenNew = screen.html() + ".";
+            screen.html(screenNew);
         }
+    });
 
-    }, false);
-
-    document.querySelector(".eqn").addEventListener("click", function () {
-
-        if (screen.innerHTML === output) {
-
-            screen.innerHTML = eval(output);
+    $(document).on("click", ".eqn", function () {
+        if (screen.html() == output) {
+            var evalOutput = eval(output);
+            screenNew = screen.html(evalOutput);
         }
         else {
-            screen.innerHTML = "";
+            screenNew = screen.html("");
         }
+    });
 
-    }, false);
+    $(document).on("click", "#del", function () {
+        screen.html("");
+    });
 
-    document.querySelector("#delete").addEventListener("click", function () {
-
-        screen.innerHTML = "";
-
-    }, false);
-
-    var elem1 = document.querySelectorAll(".operator");
-    var len1 = elem1.length;
-
-    for (var i = 0; i < len1; i++) {
-
-        elem1[i].addEventListener("click", function () {
-
-            operator = this.value;
-
-            if (screen.innerHTML === "") {
-
-                screen.innerHTML = screen.innerHTML.concat("");
-
-            }
-            else if (output) {
-
-                screen.innerHTML = output.concat(operator);
-
-            }
-
-        }, false);
-
-    }
+    $(document).on("click", ".operator", function () {
+        operator = this.value;
+        if (screen.html() == "") {
+            screenNew = screen.html() + "";
+            screen.html(screenNew);
+        }
+        else if (output) {
+            screenNew = output + operator;
+            screen.html(screenNew);
+        }
+    });
 });
